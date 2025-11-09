@@ -32,7 +32,8 @@ This tutorial outlines the prerequisites and installation of the open-source hel
 <h2>Installation Steps</h2>
 
 <p>
-<img src="https://imgur.com/yi2hKnT" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img width="2208" height="1436" alt="image" src="https://github.com/user-attachments/assets/f043cd69-7335-4d4f-b574-cc6c70ec0c48" />
+
 </p>
 <p>
 Create an Azure Virtual Machine Windows 10 Sign in to the Azure Portal → https://portal.azure.com
@@ -58,7 +59,7 @@ Once deployed, go to your VM’s overview in Azure.
 
 Click Connect → RDP, download the RDP file, and log in using your credentials.
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
 </p>
 <p>
 Install IIS, PHP, and MySQL
@@ -66,9 +67,15 @@ Install IIS, PHP, and MySQL
 <br />
 
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
 </p>
 <p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Download and extracted osTicket to C:\inetpub\wwwroot.
+
+Configure IIS to serve the site and set PHP as a handler.
+
+Create a MySQL database and linked it during setup.
+
+Complete the web-based installer and secured the installation.
 </p>
 <br />
