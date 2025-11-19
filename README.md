@@ -2,6 +2,9 @@
 <p align="center">
 <img src="https://i.imgur.com/Clzj7Xs.png" alt="osTicket logo"/>
 </p>
+## 📌 Project Overview
+This project demonstrates the installation and configuration of **osTicket**, an open-source help desk system, on a **Microsoft Azure Windows Server VM**. The goal was to deploy a functional ticketing system and configure it for real-world IT support workflows.
+
 
 <h1>osTicket - Prerequisites and Installation</h1>
 This tutorial outlines the prerequisites and installation of the open-source help desk ticketing system osTicket.<br />
