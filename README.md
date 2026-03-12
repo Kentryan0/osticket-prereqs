@@ -1,84 +1,137 @@
-# osticket-prereqs
-<p align="center">
-<img src="https://i.imgur.com/Clzj7Xs.png" alt="osTicket logo"/>
-</p>
-## 📌 Project Overview
-This project demonstrates the installation and configuration of **osTicket**, an open-source help desk system, on a **Microsoft Azure Windows Server VM**. The goal was to deploy a functional ticketing system and configure it for real-world IT support workflows.
+# osTicket: Prerequisites and Installation
 
+![osTicket Logo](https://i.imgur.com/Clzj7Xs.png)
 
-<h1>osTicket - Prerequisites and Installation</h1>
-This tutorial outlines the prerequisites and installation of the open-source help desk ticketing system osTicket.<br />
+This lab documents the prerequisites and installation steps for setting up the open-source help desk ticketing system **osTicket** on a Windows 10 virtual machine hosted in Microsoft Azure.
 
+---
 
-<h2>Video Demonstration</h2>
+## Environments and Technologies Used
 
-- ### [YouTube: How To Install osTicket with Prerequisites](https://www.youtube.com/watch?v=k_CDukV-bcs)
-
-<h2>Environments and Technologies Used</h2>
-
-- Microsoft Azure (Virtual Machines/Compute)
-- Remote Desktop
+- Microsoft Azure (Virtual Machines)
+- Remote Desktop Protocol (RDP)
 - Internet Information Services (IIS)
+- PHP 7.3.8
+- MySQL 5.5.62
+- osTicket v1.15.8
 
-<h2>Operating Systems Used </h2>
+## Operating System Used
 
-- Windows 10</b> (21H2)
+- Windows 10 (21H2)
 
-<h2>List of Prerequisites</h2>
+---
 
-- Windows Server or Linux environment
-- Basic knowledge of web servers (IIS or Apache)
-- Access to administrator/root privileges
-- Understanding of file permissions and networking basics
-  
+## Prerequisites
 
-<h2>Installation Steps</h2>
+Before installing osTicket, the following components must be installed and configured:
 
-<p>
-<img width="2208" height="1436" alt="image" src="https://github.com/user-attachments/assets/f043cd69-7335-4d4f-b574-cc6c70ec0c48" />
+- IIS (Internet Information Services) with CGI enabled
+- PHP Manager for IIS
+- URL Rewrite Module for IIS
+- PHP 7.3.8
+- Microsoft Visual C++ Redistributable
+- MySQL 5.5.62
+- HeidiSQL (for database management)
 
-</p>
-<p>
-Create an Azure Virtual Machine Windows 10 Sign in to the Azure Portal → https://portal.azure.com
+---
 
-Go to Create a Resource → Virtual Machine
+## Installation Steps
 
-Choose:
+### Step 1: Create the Azure Virtual Machine
 
-Image: Windows Server 2019 or 2022 Datacenter
+Create a Windows 10 VM in Azure with at least 2 vCPUs. Once deployed, connect to it using Remote Desktop (RDP) with the public IP address.
 
-Size: At least 2 vCPUs and 4GB RAM
+### Step 2: Enable IIS with CGI
 
-Inbound Ports: Allow RDP (3389) and HTTP (80)
+Open **Control Panel > Programs > Turn Windows Features On or Off**.
 
-Set username and password, then Create the VM.
-</p>
-<br />
+Enable:
+- Internet Information Services
+- World Wide Web Services → Application Development Features → **CGI**
 
-<p>
-  Connect to the VM
+This allows IIS to process PHP files needed by osTicket.
 
-Once deployed, go to your VM’s overview in Azure.
+### Step 3: Install PHP Manager and Rewrite Module
 
-Click Connect → RDP, download the RDP file, and log in using your credentials.
-<p>
+Download and install:
+- **PHP Manager for IIS** (`PHPManagerForIIS_V1.5.0.msi`)
+- **URL Rewrite Module** (`rewrite_amd64_en-US.msi`)
 
-</p>
-<p>
-Install IIS, PHP, and MySQL
-</p>
-<br />
+These allow IIS to understand PHP and handle URL routing properly.
 
-<p>
+### Step 4: Install PHP 7.3.8
 
-</p>
-<p>
-Download and extracted osTicket to C:\inetpub\wwwroot.
+Create the directory `C:\PHP`, then download and extract **PHP 7.3.8** (`php-7.3.8-nts-Win32-VC15-x86.zip`) into that folder.
 
-Configure IIS to serve the site and set PHP as a handler.
+In IIS Manager, use PHP Manager to register PHP by pointing to `C:\PHP\php-cgi.exe`.
 
-Create a MySQL database and linked it during setup.
+### Step 5: Install Microsoft Visual C++ Redistributable
 
-Complete the web-based installer and secured the installation.
-</p>
-<br />
+Install `VC_redist.x86.exe`. This is a required dependency for PHP to run on Windows.
+
+### Step 6: Install MySQL 5.5.62
+
+Install MySQL with the following settings:
+- Setup Type: **Typical**
+- Launch Configuration Wizard after install: **Yes**
+- Configuration Type: **Standard**
+- Set a root password (save this — you'll need it later)
+
+### Step 7: Download and Set Up osTicket
+
+1. Download osTicket v1.15.8
+2. Extract the **upload** folder and copy it to `C:\inetpub\wwwroot`
+3. Rename the folder from `upload` to `osTicket`
+4. Reload IIS (stop and start the server)
+
+### Step 8: Enable Required PHP Extensions
+
+In IIS Manager, navigate to:
+**Sites → Default → osTicket**, then open PHP Manager and enable the following extensions:
+- `php_imap.dll`
+- `php_intl.dll`
+- `php_opcache.dll`
+
+Refresh the osTicket browser page — more features will now show as enabled.
+
+### Step 9: Configure ost-config.php
+
+Navigate to `C:\inetpub\wwwroot\osTicket\include\`.
+
+Rename `ost-sampleconfig.php` → `ost-config.php`
+
+Right-click → Properties → Security → Disable inheritance → Remove all existing permissions → Add **Everyone** with **Full Control** (temporary, for setup).
+
+### Step 10: Set Up the Database with HeidiSQL
+
+Install **HeidiSQL**, open it, and create a new session using the MySQL root credentials. Then create a new database called `osTicket`.
+
+### Step 11: Complete the osTicket Browser Setup
+
+In your browser, navigate to `http://localhost/osTicket` and fill in:
+- Help Desk Name
+- Default email
+- Admin username and password
+- MySQL Database: `osTicket`
+- MySQL Username: `root`
+- MySQL Password: *(your root password)*
+
+Click **Install Now!**
+
+### Step 12: Clean Up
+
+After installation:
+- Delete `C:\inetpub\wwwroot\osTicket\setup`
+- Set `ost-config.php` permissions back to **Read Only**
+
+---
+
+## Result
+
+osTicket is now installed and accessible at:
+- **End User Portal:** `http://localhost/osTicket`
+- **Admin/Staff Panel:** `http://localhost/osTicket/scp/login.php`
+
+---
+
+*Next: [osTicket: Post-Installation Configuration](https://github.com/kentryan0/post-install-config)*
